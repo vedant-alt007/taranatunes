@@ -1,247 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HappyVV - Tarana Tunes</title>
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Arial', sans-serif;
-        background: #0d0d0d;
-        color: #fff;
-        position: relative;
-        overflow-x: hidden;
-    }
-
-    .star {
-        position: absolute;
-        width: 5px;
-        height: 5px;
-        background: white;
-        border-radius: 50%;
-        opacity: 0.8;
-        animation: float 5s infinite linear;
-    }
-
-    @keyframes float {
-        0% {transform: translateY(0) translateX(0);}
-        100% {transform: translateY(-1000px) translateX(50px);}
-    }
-
-    .lang-btns {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        z-index: 999;
-    }
-
-    .lang-btns button {
-        background: #800000;
-        color: #fff;
-        border: none;
-        padding: 10px 14px;
-        cursor: pointer;
-        font-weight: bold;
-        border-radius: 5px;
-        transition: transform 0.3s;
-        font-size: 14px;
-    }
-
-    .lang-btns button:hover {
-        transform: scale(1.1);
-    }
-
-    .heading {
-        text-align: center;
-        font-size: 3em;
-        color: gold;
-        text-shadow: 2px 2px 10px #ffd700;
-        margin-top: 50px;
-        font-weight: bold;
-    }
-
-    .event-box {
-        background: #800000;
-        margin: 20px auto;
-        padding: 20px 20px;
-        max-width: 90%;
-        border-radius: 15px;
-        box-shadow: 0 0 20px #ff0000;
-        animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-        0%, 100% {box-shadow: 0 0 20px #ff0000;}
-        50% {box-shadow: 0 0 40px #ff4500;}
-    }
-
-    .event-box h2 {
-        color: #ffd700;
-        text-align: center;
-        margin-bottom: 15px;
-        font-size: 1.5em;
-    }
-
-    .emoji {
-        display: inline-block;
-        animation: bounce 1s infinite;
-    }
-
-    @keyframes bounce {
-        0%,100% {transform: translateY(0);}
-        50% {transform: translateY(-10px);}
-    }
-
-    ul {
-        list-style: none;
-        padding-left: 0;
-        font-size: 1em;
-    }
-
-    ul li {
-        margin: 8px 0;
-        line-height: 1.5;
-    }
-
-    @media(max-width:600px){
-        .heading {
-            font-size: 2em;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HappyVV - Tarana Tunes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold-gradient: linear-gradient(to bottom, #cfc09f 22%, #634f2c 24%, #cfc09f 26%, #cfc09f 27%, #ffecb3 40%, #3a2c0f 78%);
+            --gold-box-bg: linear-gradient(135deg, rgba(255, 223, 0, 0.1), rgba(255, 215, 0, 0.3));
+            --gold-border: 2px solid #FFD700;
+            --ribbon-color: #d4af37;
         }
-        .event-box h2 {
-            font-size: 1.2em;
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #000; color: #fff;
+            overflow-x: hidden; height: 100%;
         }
-        .lang-btns button {
-            padding: 8px 10px;
-            font-size: 12px;
+
+        /* --- BEAUTIFIED ACCESS DENIED SECTION --- */
+        #access-denied {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+            padding: 20px;
         }
-    }
-</style>
+
+        .error-card {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 40px 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            max-width: 400px;
+        }
+
+        .lock-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255,215,0,0.5));
+        }
+
+        .error-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .error-msg {
+            color: #ccc;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .app-badge {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 20px;
+            background: var(--gold-gradient);
+            color: #000;
+            font-weight: bold;
+            border-radius: 30px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        /* --- MAIN CONTENT STYLES --- */
+        #main-content { display: none; }
+        .aurora-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #000; overflow: hidden; }
+        .aurora-bg::before, .aurora-bg::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; opacity: 0.6; mix-blend-mode: screen; }
+        .aurora-bg::before { background-image: linear-gradient(45deg, rgba(0, 255, 128, 0.4) 0%, rgba(0, 128, 255, 0.4) 25%, rgba(128, 0, 255, 0.4) 50%, rgba(255, 0, 128, 0.4) 75%, rgba(0, 255, 128, 0.4) 100%); animation: auroraMove 25s linear infinite alternate; }
+        .aurora-bg::after { background-image: linear-gradient(-45deg, rgba(255, 255, 0, 0.3) 0%, rgba(0, 255, 255, 0.3) 33%, rgba(255, 0, 255, 0.3) 66%, rgba(255, 255, 0, 0.3) 100%); animation: auroraMove 35s linear infinite alternate-reverse; opacity: 0.4; }
+        @keyframes auroraMove { 0% { background-position: 0% 50%; transform: rotate(0deg) scale(1); } 50% { background-position: 100% 50%; transform: rotate(5deg) scale(1.1); } 100% { background-position: 0% 50%; transform: rotate(0deg) scale(1); } }
+        .container { max-width: 90%; margin: 0 auto; padding: 80px 0 50px; text-align: center; }
+        .lang-switcher { position: fixed; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+        .lang-btn { background: var(--gold-gradient); border: 1px solid #fff; padding: 8px 15px; border-radius: 20px; font-weight: bold; color: #3a2c0f; cursor: pointer; }
+        .lang-btn.active { border: 2px solid #FF4500; color: #000; }
+        .main-title-3d { font-size: 3rem; font-weight: 800; text-transform: uppercase; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(2px 2px 0px #634f2c); }
+        .ribbon-container { position: relative; display: inline-block; margin: 20px 0; padding: 10px 40px; background: var(--ribbon-color); color: #3a2c0f; font-weight: 800; font-size: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .gold-box { background: var(--gold-box-bg); border: var(--gold-border); border-radius: 15px; padding: 25px 15px; margin-bottom: 30px; backdrop-filter: blur(5px); }
+        .round-header { font-size: 1.8rem; color: #FFD700; }
+        .reward-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed rgba(255,215,0,0.5); }
+        .reward-rank { color: #FFD700; font-weight: bold; }
+    </style>
 </head>
 <body>
 
-<div class="lang-btns">
-    <button id="btn-en">English</button>
-    <button id="btn-hi">हिंदी</button>
-</div>
+    <div id="access-denied">
+        <div class="error-card">
+            <div class="lock-icon">🔒</div>
+            <div class="error-title">Private Access</div>
+            <p class="error-msg">This event page is exclusive to the <b>HappyVV App</b>. Please open the link from inside the application to participate.</p>
+            <div style="margin-top: 15px; font-size: 0.9rem; color: #FFD700; font-weight: bold;">[ HappyVV - Tarana Tunes ]</div>
+            <div class="app-badge">Official Event Link</div>
+        </div>
+    </div>
 
-<div class="heading" id="heading">HappyVV</div>
-<div class="heading" id="subheading">❤️ TARANA TUNES ❤️</div>
-<div style="text-align:center; margin-bottom:30px; font-size:1.2em;">(Singing/Performance based Event)</div>
+    <div id="main-content">
+        <div class="aurora-bg"></div>
+        <div class="lang-switcher">
+            <button class="lang-btn active" onclick="switchLanguage('en')">EN</button>
+            <button class="lang-btn" onclick="switchLanguage('hi')">हिन्दी</button>
+        </div>
+        <div class="container">
+            <h1 class="main-title-3d">HappyVV</h1>
+            <div class="ribbon-container">TARANA TUNES</div>
+            <p style="color: #FFD700;" data-i18n="event_desc">(Singing/Performance based Event)</p>
 
-<div class="event-box" id="round1">
-    <h2>🔹 Round 1 – Blind Beats (Audition)</h2>
-    <ul>
-        <li>🕖 Time: 7:00 PM (Duration: 1–2 hours)</li>
-        <li>🎵 Theme: Sing without music (Acapella). Sing for at least 2–3 minutes.</li>
-        <li>🎤 Selection: 25 participants will be shortlisted based on voice clarity and expression.</li>
-    </ul>
-</div>
+            <div class="gold-box">
+                <h2 class="round-header" data-i18n="r1_title">Round 1</h2>
+                <p data-i18n="r1_theme_desc">Sing without music (Acapella). Sing for at least 2–3 minutes.</p>
+            </div>
 
-<div class="event-box" id="round2">
-    <h2>🔹 Round 2 – Retro Remix (Semifinal)</h2>
-    <ul>
-        <li>🕖 Time: 7:00 PM (Duration: 1 hour)</li>
-        <li>🎵 Theme: Old songs in a new style (Remix, Lo-Fi, Mashup, etc.)</li>
-        <li>🎤 Selection: 10 finalists will be chosen.</li>
-        <li>🎯 Fun Twist: The host will play a short retro tune — the audience guesses the song to win 100k coins.</li>
-    </ul>
-</div>
+            <div class="gold-box">
+                <h2 class="round-header" data-i18n="r2_title">Round 2</h2>
+                <p data-i18n="r2_theme_desc">Old songs in a new style (Remix, Lo-Fi, Mashup, etc.)</p>
+            </div>
 
-<div class="event-box" id="round3">
-    <h2>🔹 Round 3 – Finale Symphony (Final)</h2>
-    <ul>
-        <li>🕖 Time: 7:00 PM (Duration: 1 hour)</li>
-        <li>🎵 Theme: Fusion (a blend of Indian Classical and Modern styles)</li>
-        <li>🎯 Fun Twist: The host will ask participants questions related to movies, songs, or gk. Correct answers earn 100k coins and a special chance to perform.</li>
-    </ul>
-</div>
+            <div class="gold-box">
+                <h2 class="round-header" data-i18n="r3_title">Round 3</h2>
+                <p data-i18n="r3_theme_desc">Fusion (a blend of Indian Classical and Modern styles)</p>
+            </div>
 
-<div class="event-box" id="guests">
-    <h2>Special Guest</h2>
-    <ul>
-        <li>Manish Sir</li>
-        <li>Lakshmi Ma'am</li>
-        <li>Host: Ayush & Vedant</li>
-    </ul>
-</div>
+            <div class="gold-box">
+                <h2 class="round-header" data-i18n="rewards_title">Rewards</h2>
+                <div class="reward-item"><span class="reward-rank">Top 1:</span> <span>10m coins + 7-day VIP 2 + Frame</span></div>
+                <div class="reward-item"><span class="reward-rank">Top 2:</span> <span>5m coins + 7-day VIP 1 + Frame</span></div>
+                <div class="reward-item"><span class="reward-rank">Top 3:</span> <span>3m coins + 7-day VIP 1 + Frame</span></div>
+            </div>
+        </div>
+    </div>
 
-<div class="event-box" id="rewards">
-    <h2>🏆 Rewards</h2>
-    <ul>
-        <li>Top 1: 10 million coins + 7-day VIP 2 + Frame</li>
-        <li>Top 2: 5 million coins + 7-day VIP 1 + Frame</li>
-        <li>Top 3: 3 million coins + 7-day VIP 1 + Frame</li>
-        <li>Top 4 to 10: 500k coins each</li>
-    </ul>
-</div>
+    <script>
+        // --- GATEKEEPER LOGIC ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const accessKey = urlParams.get('view');
 
-<script>
-// Floating stars
-for(let i=0;i<100;i++){
-    let star = document.createElement('div');
-    star.className = 'star';
-    star.style.top = Math.random() * window.innerHeight + 'px';
-    star.style.left = Math.random() * window.innerWidth + 'px';
-    star.style.width = star.style.height = Math.random()*3 + 2 + 'px';
-    star.style.animationDuration = (Math.random()*5 + 5) + 's';
-    document.body.appendChild(star);
-}
+            if (accessKey === 'app') {
+                document.getElementById('main-content').style.display = 'block';
+                document.getElementById('access-denied').style.display = 'none';
+            } else {
+                document.getElementById('main-content').style.display = 'flex';
+                document.getElementById('access-denied').style.display = 'flex';
+                // Hide main content just in case
+                document.getElementById('main-content').style.display = 'none';
+            }
+        });
 
-// Content for bilingual toggle
-const content = {
-    en: {
-        heading: 'HappyVV',
-        subheading: '❤️ TARANA TUNES ❤️',
-        round1: '🔹 Round 1 – Blind Beats (Audition)',
-        round1Details: ['🕖 Time: 7:00 PM (Duration: 1–2 hours)','🎵 Theme: Sing without music (Acapella). Sing for at least 2–3 minutes.','🎤 Selection: 25 participants will be shortlisted based on voice clarity and expression.'],
-        round2: '🔹 Round 2 – Retro Remix (Semifinal)',
-        round2Details: ['🕖 Time: 7:00 PM (Duration: 1 hour)','🎵 Theme: Old songs in a new style (Remix, Lo-Fi, Mashup, etc.)','🎤 Selection: 10 finalists will be chosen.','🎯 Fun Twist: The host will play a short retro tune — the audience guesses the song to win 100k coins.'],
-        round3: '🔹 Round 3 – Finale Symphony (Final)',
-        round3Details: ['🕖 Time: 7:00 PM (Duration: 1 hour)','🎵 Theme: Fusion (a blend of Indian Classical and Modern styles)','🎯 Fun Twist: The host will ask participants questions related to movies, songs, or gk. Correct answers earn 100k coins and a special chance to perform.'],
-        guests: 'Special Guest',
-        guestsDetails: ['Manish Sir','Lakshmi Ma'am','Host: Ayush & Vedant'],
-        rewards: '🏆 Rewards',
-        rewardsDetails: ['Top 1: 10 million coins + 7-day VIP 2 + Frame','Top 2: 5 million coins + 7-day VIP 1 + Frame','Top 3: 3 million coins + 7-day VIP 1 + Frame','Top 4 to 10: 500k coins each']
-    },
-    hi: {
-        heading: 'हैप्पीVV',
-        subheading: '❤️ तारणा ट्यून ❤️',
-        round1: '🔹 राउंड 1 – ब्लाइंड बीट्स (ऑडिशन)',
-        round1Details: ['🕖 समय: 7:00 PM (अवधि: 1–2 घंटे)','🎵 थीम: बिना संगीत के गायन (एकापेला)। कम से कम 2–3 मिनट गाएँ।','🎤 चयन: आवाज़ की स्पष्टता और अभिव्यक्ति के आधार पर 25 प्रतिभागियों को चुना जाएगा।'],
-        round2: '🔹 राउंड 2 – रेट्रो रीमिक्स (सेमीफाइनल)',
-        round2Details: ['🕖 समय: 7:00 PM (अवधि: 1 घंटा)','🎵 थीम: पुराने गाने नए अंदाज़ में (रीमिक्स, लो-फाई, मेषअप, आदि)','🎤 चयन: 10 फाइनलिस्ट चुने जाएंगे।','🎯 मज़ेदार ट्विस्ट: होस्ट एक छोटा रेट्रो गाना चलाएगा — दर्शक गाना पहचानें और 100k कॉइन जीतें।'],
-        round3: '🔹 राउंड 3 – फिनाले सिम्फनी (फाइनल)',
-        round3Details: ['🕖 समय: 7:00 PM (अवधि: 1 घंटा)','🎵 थीम: फ्यूजन (भारतीय शास्त्रीय और आधुनिक शैली का मिश्रण)','🎯 मज़ेदार ट्विस्ट: होस्ट प्रतिभागियों से मूवी, गाने या सामान्य ज्ञान से संबंधित सवाल पूछेंगे। सही उत्तर पर 100k कॉइन और प्रदर्शन का विशेष अवसर मिलेगा।'],
-        guests: 'विशेष अतिथि',
-        guestsDetails: ['मनीष सर','लक्ष्मी मैम','होस्ट: आयुष & वेदांत'],
-        rewards: '🏆 पुरस्कार',
-        rewardsDetails: ['टॉप 1: 10 मिलियन कॉइन + 7-दिन VIP 2 + फ्रेम','टॉप 2: 5 मिलियन कॉइन + 7-दिन VIP 1 + फ्रेम','टॉप 3: 3 मिलियन कॉइन + 7-दिन VIP 1 + फ्रेम','टॉप 4 से 10: 500k कॉइन प्रत्येक']
-    }
-};
+        // Language data (Simplified for example)
+        const translations = {
+            en: { r1_title: "Round 1", rewards_title: "Rewards" },
+            hi: { r1_title: "राउंड 1", rewards_title: "पुरस्कार" }
+        };
 
-function setLanguage(lang){
-    const c = content[lang];
-    document.getElementById('heading').innerText = c.heading;
-    document.getElementById('subheading').innerText = c.subheading;
-    document.getElementById('round1').querySelector('h2').innerText = c.round1;
-    document.getElementById('round1').querySelector('ul').innerHTML = c.round1Details.map(i=>'<li>'+i+'</li>').join('');
-    document.getElementById('round2').querySelector('h2').innerText = c.round2;
-    document.getElementById('round2').querySelector('ul').innerHTML = c.round2Details.map(i=>'<li>'+i+'</li>').join('');
-    document.getElementById('round3').querySelector('h2').innerText = c.round3;
-    document.getElementById('round3').querySelector('ul').innerHTML = c.round3Details.map(i=>'<li>'+i+'</li>').join('');
-    document.getElementById('guests').querySelector('h2').innerText = c.guests;
-    document.getElementById('guests').querySelector('ul').innerHTML = c.guestsDetails.map(i=>'<li>'+i+'</li>').join('');
-    document.getElementById('rewards').querySelector('h2').innerText = c.rewards;
-    document.getElementById('rewards').querySelector('ul').innerHTML = c.rewardsDetails.map(i=>'<li>'+i+'</li>').join('');
-}
-
-document.getElementById('btn-en').addEventListener('click',()=>setLanguage('en'));
-document.getElementById('btn-hi').addEventListener('click',()=>setLanguage('hi'));
-</script>
+        function switchLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) element.textContent = translations[lang][key];
+            });
+        }
+    </script>
 </body>
 </html>
